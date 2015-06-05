@@ -1,7 +1,7 @@
 require_relative "../../lib/airplane"
 
 RSpec.describe Airplane do
-  let (:my_plane) { Airplane.new("cesna", 10, 150) }
+  let (:my_plane) { Airplane.new("cesna", 10, 150, 100) }
   it 'has a type' do
     expect(my_plane.type).to eq("cesna")
   end
@@ -12,6 +12,10 @@ RSpec.describe Airplane do
 
   it 'has horsepower' do
     expect(my_plane.horsepower).to eq(150)
+  end
+
+  it 'has fuel' do
+    expect(my_plane.fuel).to eq(100)
   end
 
   describe "#start" do
@@ -63,6 +67,22 @@ RSpec.describe Airplane do
       it 'returns airplane already on the ground' do
         my_plane.start
         expect(my_plane.land).to eq('airplane already on the ground')
+      end
+    end
+  end
+
+  describe "#fuel" do
+    context 'there is enough fuel' do
+      it 'returns there is enough fuel' do
+        expect(my_plane.fuel).to be > 0
+      end
+    end
+
+    context 'there is not enough fuel' do
+      it 'returns there is not enough fuel' do
+        my_plane.start
+        my_plane.takeoff
+        expect(my_plane.fuel).to be <= 0
       end
     end
   end
